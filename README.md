@@ -1,21 +1,49 @@
-# Dino Encyclopedia
+# 0. 🦖 Dino Culture Academy
 
-Aplicación web educativa sobre dinosaurios: enciclopedia por eras geológicas, mapa interactivo, lecturas, tienda simulada y minijuegos. Front construido con **React 18**, **TypeScript** y **Vite**.
+**React 18 · TypeScript · Vite** · **Construcción de Software** (UB) · Museo web de dinosaurios: **mapa por eras**, **galerías con escaneo X-Ray**, **biblioteca con libros** y **minijuegos** (puzzles + memoria).
 
----
-
-## Requisitos previos
-
-| Herramienta | Versión |
-|-------------|---------|
-| [Node.js](https://nodejs.org/) | **18 o superior** (`engines` en `package.json`) |
-| npm | Incluido con Node (el repo usa `package-lock.json`) |
-
-> Este proyecto **no** usa Bun como gestor principal; las dependencias se instalan con **npm**.
+Repo: [Gemdelle/Dino-Culture-Academy](https://github.com/Gemdelle/Dino-Culture-Academy)
 
 ---
 
-## Puesta en marcha (local)
+## 1. 📋 Resumen
+
+**Dino Culture Academy** es un museo interactivo de dinosaurios en el navegador: recorrés la historia geológica como si fueras un visitante en 3 períodos, pasás por salas con dinosaurios, podés ver sus esqueletos con el escaneo tipo radiografía, leer material en la biblioteca, ¡hasta jugar minijuegos: puzzleaurus o memodyn! La idea es **unir contenido educativo y juego liviano** en una sola app (SPA), pensada para probarse en local o en **GitHub Pages** sin depender de un backend para disfrutar el circuito principal.
+
+| # | Área | Qué hacés ahí |
+|---|------|----------------|
+| 🗺️ | **Mapa** | Navegás eras (Triásico / Jurásico / Cretácico) y entrás a periodos. |
+| 🖼️ | **Galería / eras** | Ves dinosaurios por periodo; en muchas pantallas podés **escanear** (X-Ray) para explorar el esqueleto y el contenido asociado. |
+| 📚 | **Biblioteca** | Elegís **libros** y los leés en modo lectura interactiva. |
+| 🎮 | **Games** | **Puzzleaurus** (rompecabezas por dinosaurio y dificultad) y **MemoDyn** (memoria con cartas). |
+| 🏠 | **Landing + Nav** | Carousel de galerías, tienda simulada, billetera, perfil; progreso y logros en **localStorage** (demo usable sin backend). |
+
+---
+
+## 2. 🗺️ Mapa y galerías
+
+El **mapa** conecta las eras y los periodos. Desde cada vista de era/galería accedés a los dinosaurios de esa franja temporal. El flujo de **escaneo** (donde esté disponible) está pensado para “ver por dentro” el modelo y acercarte al contenido educativo sin depender de un servidor propio para el core del juego.
+
+---
+
+## 3. 📚 Biblioteca
+
+En **Library** abrís catálogo, elegís un libro y entrás a **Reading** con plantillas por tipo de contenido (texto, imágenes, etc.). Es contenido estático empaquetado en el front.
+
+---
+
+## 4. 🎮 Minijuegos
+
+- **Puzzleaurus:** varios puzzles, niveles fácil / medio / difícil, piezas arrastrables y temporizador.  
+- **MemoDyn:** memoria por parejas sobre cartas.
+
+Rutas directas (sin login): **`/games`**, **`/puzzleaurus`**. El resto del museo pide **sesión o invitado** (ver §8).
+
+---
+
+## 5. ▶️ Cómo ejecutar
+
+**Requisito:** Node **≥ 18** y **npm**.
 
 ```bash
 git clone https://github.com/Gemdelle/Dino-Culture-Academy.git
@@ -24,141 +52,57 @@ npm install
 npm run dev
 ```
 
-Por defecto Vite levanta el servidor de desarrollo (el script usa `vite --host` para poder abrirlo desde otros dispositivos en la red local). La URL aparece en la consola, suele ser `http://localhost:5173`.
+La URL sale en consola (típico `http://localhost:5173`; el script usa `--host` para probar en red local).
 
-| Script | Descripción |
-|--------|-------------|
-| `npm run dev` | Servidor de desarrollo |
-| `npm run build` | TypeScript (`tsc`) + compilación de producción en `dist/` |
-| `npm run preview` | Previsualiza el build de producción |
+| Script | Uso |
+|--------|-----|
+| `npm run dev` | Desarrollo |
+| `npm run build` | `tsc` + build a `dist/` |
+| `npm run preview` | Servir el `dist/` local |
 | `npm run lint` | ESLint |
 | `npm test` | Jest |
-| `npm run deploy` | Publica `dist/` con **gh-pages** (tras `predeploy` → `build`) |
 
 ---
 
-## Cómo navegar la app (importante para quien la prueba)
+## 6. 🚀 GitHub Pages
 
-### Entrar como invitado (Guest)
+- En **build**, `base` en `vite.config.ts` debe ser **`/<nombre-exacto-del-repo>/`** (hoy: `Dino-Culture-Academy`). En **dev**, `base` es `/`.  
+- **Deploy:** workflow **Deploy to GitHub Pages** (pestaña **Actions** del repo, no *Settings → Actions*). Permisos: **Settings → Actions → General → Read and write**. Rama publicada: **`gh-pages`**, carpeta **`/`** en **Settings → Pages**.  
+- En Windows, `npm run deploy` (gh-pages) puede fallar con **`ENAMETOOLONG`**; por eso el workflow en **`.github/workflows/deploy-gh-pages.yml`**.  
+- Rutas bajo subpath (`/assets/…`, `public/` en puzzles) se resuelven con **`publicAsset()`** + plugin de build; no hace falta tocarlo si no cambiás el nombre del repo.
 
-La mayoría de las pantallas están detrás de un **PrivateGuard**: hace falta estar **logueado** o en modo **invitado**.
-
-1. Abrí **`/login`**.
-2. Usá la opción para **entrar como invitado / Guest** (no requiere cuenta ni contraseña).
-3. Desde ahí podés usar el mapa, álbum, biblioteca, minijuegos, etc.
-
-### Rutas públicas sin login
-
-Para probar **solo el front** sin pasar por login, estas rutas están accesibles directamente:
-
-- **`/games`** — Hub de minijuegos (Puzzleaurus, MemoDyn).
-- **`/puzzleaurus`** — Rompecabezas con varios dinosaurios y niveles de dificultad.
-
-El resto de rutas (`/`, `/map`, `/album`, …) siguen pidiendo sesión o modo invitado.
+Demo: `https://gemdelle.github.io/Dino-Culture-Academy/` (ajustá usuario/repo si aplica).
 
 ---
 
-## Qué incluye el proyecto (funcionalidades)
-
-- **Landing** y navegación principal con barra de menú.
-- **Mapa** y zonas por **era** (Triásico, Jurásico, Cretácico) con vistas por periodo.
-- **Álbum**, **biblioteca**, **lectura** por libro, **tienda**, **billetera**, **tips**, **perfil**.
-- **Minijuegos**
-  - **Puzzleaurus**: puzzles por imagen, varias dificultades.
-  - **MemoDyn**: memoria con cartas.
-- **Progreso y logros** persistidos en **localStorage** (sin API obligatoria para el flujo principal de juego).
-- **Analytics** opcional (Amplitude) mediante variables de entorno.
-
----
-
-## Configuración (Vite y entorno)
-
-### Base path (`vite.config.ts`)
-
-En desarrollo (`npm run dev`), `base` es **`/`** para que funcione `http://localhost:5173/` sin subcarpeta.
-
-En **build** de producción, `base` apunta al subpath de GitHub Pages (por ejemplo `"/Dino-Culture-Academy/"`). **Renombrá ese valor** si tu repo en GitHub tiene otro nombre: `"/NombreDelRepo/"`. En un dominio propio en la raíz podés usar `"/"` también en el build.
-
-`BrowserRouter` en `src/main.tsx` usa `import.meta.env.BASE_URL` para coincidir con ese `base` en la build publicada.
-
-### Variables de entorno (opcionales)
-
-Creá un archivo **`.env`** o **`.env.local`** en la raíz del proyecto (no lo subas con secretos a git). Prefijo **`VITE_`** para que Vite las exponga al cliente.
-
-| Variable | Uso |
-|----------|-----|
-| `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID` | Configuración Firebase (`src/lib/firebaseConfig.ts`) |
-| `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` | Cliente Supabase (`src/lib/supabaseConfig.ts`) — en la build “solo front” el cliente real puede estar comentado; ver archivo |
-| `VITE_AMPLITUDE_API_KEY` | Analytics Amplitude |
-| `VITE_ENABLE_ANALYTICS` | Poné `false` para desactivar analytics (`src/config/analytics.config.ts`) |
-
-Sin `.env`, gran parte de la UI sigue funcionando; algunas integraciones quedarán vacías o deshabilitadas.
-
-### Auth contra servidor (Railway)
-
-En `src/services/auth.service.ts`, las llamadas al backend de autenticación pueden estar **comentadas** para una demo solo front. Para reactivar login/registro contra API, descomentá **`API_URL`** y los bloques `fetch` en cada método (está documentado en el propio archivo).
-
----
-
-## Despliegue en GitHub Pages
-
-### 1. `base` del build y nombre del repo
-
-En `vite.config.ts`, el `base` **solo en producción** (`vite build`) debe coincidir con el nombre del repo en GitHub, por ejemplo `"/Dino-Culture-Academy/"` para [Gemdelle/Dino-Culture-Academy](https://github.com/Gemdelle/Dino-Culture-Academy).
-
-### 2. Opción recomendada: GitHub Actions (sin `npm run deploy` local)
-
-En Windows, `npm run deploy` (paquete `gh-pages`) a veces falla con **`Error: spawn ENAMETOOLONG`**: el comando `git` recibe demasiados argumentos (muchos archivos en `dist/`) y supera el límite de longitud de la línea de comandos.
-
-Este repo incluye **`.github/workflows/deploy-gh-pages.yml`**. Ese archivo define un workflow cuyo título en GitHub es **“Deploy to GitHub Pages”** (es el campo `name:` del YAML).
-
-**Importante — dos sitios distintos llamados “Actions”:**
-
-| Dónde | Para qué sirve |
-|--------|----------------|
-| Pestaña **Actions** del repo (arriba del todo, al lado de **Code**, **Issues**…) | Ahí ves la lista de workflows y podés abrir **“Deploy to GitHub Pages”** y usar **Run workflow**. |
-| **Settings → Actions → General** | Solo permisos de GitHub Actions (por ejemplo **Read and write**). **No** aparece ahí el deploy. |
-
-Pasos típicos: (1) **Settings → Actions → General** → permisos **Read and write**. (2) Pestaña **Actions** → **Deploy to GitHub Pages** → **Run workflow** (o esperá el push a `main` / `master` / `develop` / `dev`). (3) Cuando exista la rama **`gh-pages`**: **Settings → Pages** → **Deploy from a branch** → **`gh-pages`** / **`/`**.
-
-### 3. Opción local: `npm run deploy`
-
-Si en tu máquina **no** aparece `ENAMETOOLONG`, podés seguir usando:
-
-```bash
-npm run deploy
-```
-
-Si falla, probá clonar el repo en una ruta **corta** (por ejemplo `C:\dev\dino`) y volver a `npm run build` + `npm run deploy`.
-
-### 4. Vite + React
-
-El proyecto declara **`@vitejs/plugin-react-swc`** en `package.json`. En `vite.config.ts` tenés que importar ese plugin, no `@vitejs/plugin-react` (no está instalado y el build fallaría).
-
----
-
-## Estructura del código (resumen)
+## 7. 📁 Estructura del repositorio
 
 ```
-src/
-├── App.tsx, AppRouter.tsx   # Raíz y rutas
-├── components/              # UI reutilizable (Nav, puzzles, XRay, etc.)
-├── context/                 # Auth, progreso, puzzle, analytics, …
-├── pages/public/            # Pantallas públicas (mapa, eras, juegos, …)
-├── pages/private/           # Rutas privadas / admin (p. ej. uploader)
-├── services/                # Auth, analytics, tips, progreso
-├── guard/                   # PrivateGuard, PublicGuard
-└── hooks/
+Dino-Culture-Academy/
+├── public/              assets estáticos (img, giph, puzzles, …)
+├── src/
+│   ├── App.tsx          AppRouter.tsx
+│   ├── components/      Nav, XRay, puzzles, libros, …
+│   ├── context/         Auth, Progress, Puzzle, Analytics, …
+│   ├── pages/public/    Landing, Map, Library, Reading, Games, eras, …
+│   ├── services/        auth, analytics, tips, progreso
+│   ├── guard/           PrivateGuard, PublicGuard
+│   ├── utils/           publicAsset (base URL en Pages)
+│   └── shims/           ws-browser (bundle navegador)
+├── vite.config.ts       base dev/build + alias ws + plugin prefijo /assets
+├── vite-plugin-prefix-public-assets.ts
+└── .github/workflows/deploy-gh-pages.yml
 ```
 
 ---
 
-## Contribuciones
+## 8. ⌨️ Cuenta e invitado
 
-Pull requests bien acotados por feature o corrección; conviene describir el cambio y cómo probarlo.
+1. **`/login`** → **Entrar como invitado / Guest** → acceso al mapa, biblioteca, álbum, games, etc. sin backend de auth.  
+2. Login con servidor: si reactivás `API_URL` y los `fetch` en `src/services/auth.service.ts`, volvé a usar cuenta real (hoy pueden estar comentados para demo solo front).
+
+**Opcional:** `.env` con prefijo `VITE_` (Firebase, Supabase, Amplitude). Sin `.env`, la mayoría del museo igual corre; detalle en `src/lib/*` y `src/config/analytics.config.ts`.
 
 ---
 
-## Licencia
-
-Privado / académico según corresponda al repositorio — actualizá esta sección si publicás el proyecto con una licencia abierta.
+PRs chicos y con descripción de cómo probar. Licencia / uso académico según tu criterio.
