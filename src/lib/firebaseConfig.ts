@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, type Auth } from "firebase/auth";
 
 export const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -10,5 +10,11 @@ export const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const firebaseAuth = getAuth(app);
+// Sin variables VITE_FIREBASE_* (p. ej. GitHub Pages demo), initializeApp() puede lanzar y dejar la app en blanco.
+const hasFirebase =
+  typeof import.meta.env.VITE_FIREBASE_API_KEY === "string" &&
+  import.meta.env.VITE_FIREBASE_API_KEY.length > 0;
+
+export const firebaseAuth: Auth = hasFirebase
+  ? getAuth(initializeApp(firebaseConfig))
+  : (null as unknown as Auth);

@@ -1,5 +1,5 @@
 import { SupabaseContext } from "./SupabaseContext";
-import { supabase } from "../../lib";
+import { supabase } from "../../lib/supabaseConfig.ts";
 
 export const SupabaseProvider = ({
   children,
