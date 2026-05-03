@@ -2,13 +2,14 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { prefixPublicAssetsPlugin } from './vite-plugin-prefix-public-assets'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // En `vite dev` usamos `/` para que http://localhost:5173/ funcione.
 // En `vite build` mantenemos el subpath de GitHub Pages (renombrá si tu repo tiene otro nombre).
 export default defineConfig(({ command }) => ({
-  plugins: [react()],
+  plugins: [react(), prefixPublicAssetsPlugin()],
   base: command === 'serve' ? '/' : '/Dino-Culture-Academy/',
   resolve: {
     alias: {
