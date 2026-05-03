@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { publicAsset } from '../../utils/publicAsset';
 
 const PuzzleContext = createContext(null);
 
@@ -56,12 +57,16 @@ export const PuzzleProvider = ({ children }) => {
       medium: '5_8',
       hard: '7_12'
     };
-    return `public/assets/img/puzzles/puzzle-${puzzleId}/puzzle-${puzzleId}-${imageSuffix[difficulty]}.png`;
+    return publicAsset(
+      `assets/img/puzzles/puzzle-${puzzleId}/puzzle-${puzzleId}-${imageSuffix[difficulty]}.png`,
+    );
   }, []);
 
   // Función para obtener la imagen completada del puzzle
   const getCompletedImage = useCallback((puzzleId) => {
-    return `/assets/img/puzzles/puzzle-${puzzleId}/puzzle-${puzzleId}.${puzzleId === 2 ? 'jpeg' : 'jpg'}`;
+    return publicAsset(
+      `assets/img/puzzles/puzzle-${puzzleId}/puzzle-${puzzleId}.${puzzleId === 2 ? 'jpeg' : 'jpg'}`,
+    );
   }, []);
 
   // Efecto para el timer

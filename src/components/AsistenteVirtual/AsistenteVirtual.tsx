@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { publicAsset } from '../../utils/publicAsset';
 import './AsistenteVirtual.css';
 
 interface VirtualAssistantProps {
@@ -58,7 +59,12 @@ export const AsistenteVirtual = ({onClick, text, looped, boldWords = [], dialogS
         return (
             <div id="virtual-assistant" className="dialogueContainer">
                 <div>
-                    <img src="/assets/giph/logo.gif" className="virtualAssistantGiph" onClick={onClick}></img>
+                    <img
+                      src={publicAsset('assets/giph/logo.gif')}
+                      className="virtualAssistantGiph"
+                      onClick={onClick}
+                      alt=""
+                    />
 
                 </div>
                 <div className={`${"dialogue"} ${isDialogShowing ? "dialogueShow" : ''}`} style={dialogStyle}>

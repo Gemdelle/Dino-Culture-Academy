@@ -7,6 +7,7 @@ import { ProgressData } from "../../../services/progress/types.ts";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useProgress } from "../../../context/Progress/ProgressProvider.tsx";
 import { GalleryFrame } from "../../../components/GalleryFrame/GalleryFrame.tsx";
+import { publicAsset } from "../../../utils/publicAsset";
 
 interface LandingPageProps {
     progress: ProgressData;
@@ -56,11 +57,14 @@ export class LandingPageComponent extends Component<LandingPageProps, LandingPag
                         </Carousel>
                         <div id="ticket-purchase-container" className="ticket-purchase-container">
                             <div className="ticketImgContainer">
-                                <img className="ticketBackground" src="assets/img/alert/alertBorder.png"
-                                    alt="ticket background" />
+                                <img
+                                    className="ticketBackground"
+                                    src={publicAsset("assets/img/alert/alertBorder.png")}
+                                    alt="ticket background"
+                                />
                                 <div className="ticket-wrapper"
                                     onClick={() => this.controller.handleNavigateToStore()}>
-                                    <img className="ticket" src="assets/img/ticket/ticket.png" alt="tickets" />
+                                    <img className="ticket" src={publicAsset("assets/img/ticket/ticket.png")} alt="tickets" />
                                 </div>
                             </div>
                             <span>¡Comprá tus entradas!</span>
@@ -82,7 +86,7 @@ export class LandingPageComponent extends Component<LandingPageProps, LandingPag
                                 <button className="dynardModalCloseBtn" onClick={() => this.controller.handleCloseModal()}>×</button>
                                 <div className="modalContentGoldBg">
                                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                                        <img src="assets/giph/logo.gif" alt="logoGiph" className="modalLogoGiph" />
+                                        <img src={publicAsset("assets/giph/logo.gif")} alt="logoGiph" className="modalLogoGiph" />
                                         <div className="dynardQuestion">{modalPages[state.modalCurrentPage].question}</div>
                                         <div className="dynardOptionsWrapper">
                                             {modalPages[state.modalCurrentPage].options.map((option, index) => {

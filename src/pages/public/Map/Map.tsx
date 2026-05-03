@@ -10,6 +10,7 @@ import { useProgress } from "../../../context/Progress/ProgressProvider";
 import { useAuth } from "../../../context/Auth/AuthProvider";
 import { ProgressData } from "../../../services/progress/types";
 import { ProgressBar } from "../../../components/ProgressBar/ProgressBar";
+import { publicAsset } from "../../../utils/publicAsset";
 
 interface MapProps {
     progress: ProgressData;
@@ -115,7 +116,7 @@ class MapComponent extends Component<MapProps, MapComponentState> {
                             >×</button>
                             <div className="modalContentGoldBg">
                                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                                    <img src="assets/giph/logo.gif" alt="logoGiph" className="modalLogoGiph" />
+                                    <img src={publicAsset("assets/giph/logo.gif")} alt="logoGiph" className="modalLogoGiph" />
                                     <div className="dynardQuestion">{modalPages[state.modalCurrentPage].question}</div>
                                     <div className="dynardOptionsWrapper">
                                         {modalPages[state.modalCurrentPage].options.map((option, index) => {

@@ -27,6 +27,9 @@ export function prefixPublicAssetsPlugin(): Plugin {
             new RegExp(String.fromCharCode(96) + "\\/assets\\/", "g"),
             String.fromCharCode(96) + prefix + "/assets/",
           )
+          .replace(/src="assets\//g, `src="${prefix}/assets/`)
+          .replace(/src='assets\//g, `src='${prefix}/assets/`)
+          .replace(/public\/assets\//g, `${prefix}/assets/`)
           .replace(/url\(\/assets\//g, `url(${prefix}/assets/`)
           .replace(/url\("\/assets\//g, `url("${prefix}/assets/`)
           .replace(/url\('\/assets\//g, `url('${prefix}/assets/`);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './DialogoTips.module.css';
 import { getRandomDinoFact } from '../../services/TipsService.ts';
+import { publicAsset } from '../../utils/publicAsset';
 
 interface TransitionDialogProps {
     onContinue: () => void;
@@ -30,16 +31,16 @@ const DialogoTips: React.FC<TransitionDialogProps> = ({ onContinue, puzzleName }
                 </div>
                 <div className={styles.charactersRow}>
                     <div className={styles.character1}>
-                        <img 
-                            src="/assets/giph/dynard-friend.gif" 
-                            alt="character 1" 
+                        <img
+                            src={publicAsset('assets/giph/dynard-friend.gif')}
+                            alt="character 1"
                             className={styles.characterImage}
                         />
                     </div>
                     <div className={styles.character2}>
-                        <img 
-                            src="/assets/giph/logo.gif" 
-                            alt="character 2" 
+                        <img
+                            src={publicAsset('assets/giph/logo.gif')}
+                            alt="character 2"
                             className={styles.characterImage}
                         />
                     </div>
