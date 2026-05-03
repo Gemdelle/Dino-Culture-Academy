@@ -18,13 +18,11 @@ Aplicación web educativa sobre dinosaurios: enciclopedia por eras geológicas, 
 ## Puesta en marcha (local)
 
 ```bash
-git clone https://github.com/lichdencor/Dino-Encyclopedia.git
-cd Dino-Encyclopedia
+git clone https://github.com/Gemdelle/Dino-Culture-Academy.git
+cd Dino-Culture-Academy
 npm install
 npm run dev
 ```
-
-(Si el remoto es otro fork, cambiá la URL del `git clone`.)
 
 Por defecto Vite levanta el servidor de desarrollo (el script usa `vite --host` para poder abrirlo desde otros dispositivos en la red local). La URL aparece en la consola, suele ser `http://localhost:5173`.
 
@@ -106,15 +104,22 @@ En `src/services/auth.service.ts`, las llamadas al backend de autenticación pue
 
 ### 1. `base` del build y nombre del repo
 
-En `vite.config.ts`, el `base` **solo en producción** (`vite build`) debe ser `"/<nombre-exacto-del-repo-en-GitHub>/"`. Si el repo se llama `Dino-Encyclopedia` y en el config tenés `Dino-Culture-Academy`, los assets y rutas van a romper: unificá nombres.
+En `vite.config.ts`, el `base` **solo en producción** (`vite build`) debe coincidir con el nombre del repo en GitHub, por ejemplo `"/Dino-Culture-Academy/"` para [Gemdelle/Dino-Culture-Academy](https://github.com/Gemdelle/Dino-Culture-Academy).
 
 ### 2. Opción recomendada: GitHub Actions (sin `npm run deploy` local)
 
 En Windows, `npm run deploy` (paquete `gh-pages`) a veces falla con **`Error: spawn ENAMETOOLONG`**: el comando `git` recibe demasiados argumentos (muchos archivos en `dist/`) y supera el límite de longitud de la línea de comandos.
 
-Este repo incluye **`.github/workflows/deploy-gh-pages.yml`**: al hacer push a `main` o `master` (o al ejecutar el workflow a mano en la pestaña *Actions*), se hace `npm ci`, `npm run build` en Ubuntu y se publica la carpeta `dist` en la rama **`gh-pages`**.
+Este repo incluye **`.github/workflows/deploy-gh-pages.yml`**. Ese archivo define un workflow cuyo título en GitHub es **“Deploy to GitHub Pages”** (es el campo `name:` del YAML).
 
-En GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch** → rama **`gh-pages`**, carpeta **`/` (root)**.
+**Importante — dos sitios distintos llamados “Actions”:**
+
+| Dónde | Para qué sirve |
+|--------|----------------|
+| Pestaña **Actions** del repo (arriba del todo, al lado de **Code**, **Issues**…) | Ahí ves la lista de workflows y podés abrir **“Deploy to GitHub Pages”** y usar **Run workflow**. |
+| **Settings → Actions → General** | Solo permisos de GitHub Actions (por ejemplo **Read and write**). **No** aparece ahí el deploy. |
+
+Pasos típicos: (1) **Settings → Actions → General** → permisos **Read and write**. (2) Pestaña **Actions** → **Deploy to GitHub Pages** → **Run workflow** (o esperá el push a `main` / `master` / `develop` / `dev`). (3) Cuando exista la rama **`gh-pages`**: **Settings → Pages** → **Deploy from a branch** → **`gh-pages`** / **`/`**.
 
 ### 3. Opción local: `npm run deploy`
 
